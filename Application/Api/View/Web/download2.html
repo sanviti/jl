@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <title>百壹金链下载</title>
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/Api/Web/css/common.css">                    
+</head>
+
+<body>
+<div class="container">
+    <img src="__PUBLIC__/Api/Web/img/bg.jpg">
+    <div class="prompt" id="guide" onclick="dispf();">
+        <p>点击右上角按钮，然后弹出的菜单中，点击在Safari中打开，即可安装。</p>
+        <img src="__PUBLIC__/Api/Web/img/jiantou.png">
+    </div>
+    <div class="slide">
+        <div class="boximg">
+            <img src="__PUBLIC__/Api/Web/img/logo.png">
+            <p>版本：1.0&emsp;大小：22MB</p>
+            <span>更新时间：2018-5-5</span>
+        </div>
+      	<footer class="footer1">
+      		<a href="https://www.pgyer.com/irQS"  ><img src="__PUBLIC__/Api/Web/img/ios.png">立即下载</a>
+            <a href="http://download.renrengyw.com/jlapp1.0.0.apk" download="http://download.renrengyw.com/jlapp1.0.0.apk" ><img src="__PUBLIC__/Api/Web/img/android.png">立即下载</a>
+      	</footer>
+    </div>
+</div>
+
+ <script src="__PUBLIC__/Api/Web/js/appframework.min.js"></script>
+
+<script>
+var u = navigator.userAgent;
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+var v_guide = document.getElementById("guide");
+var d_IOS = document.getElementById("btni");
+var d_Android = document.getElementById("btna");
+(function() {
+    if ($.os.ios) {
+        d_IOS.style.display = "block";
+        d_Android.style.display = "none";
+        window.location = "https://www.pgyer.com/irQS";
+    }
+    if ($.os.android) {
+        d_Android.style.display = "block"
+        d_IOS.style.display = "none"
+        window.location = "http://download.renrengyw.com/jlapp1.0.0.apk";
+    }
+})();
+function dispt() {
+    $('.prompt').show();
+}
+function dispf() {
+    $('.prompt').hide();
+}
+</script> 
+</body>
+</html>
+

@@ -1,0 +1,123 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/js/echarts.common.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/js/exporting.js"></script>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/js/highcharts.js"></script>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+  	<div class="container-fluid">
+  		<div class="info-center">
+  				<div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>交易走线图</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">             
+      		    	<div id="main" style="width:100%;height:400px;"></div>
+      		    </div>
+        </div>
+        <div class="info-center" style="padding-bottom:100px;">
+  				<div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>交易额走线图</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">             
+      		    	<div id="mains" style="width:100%;height:400px;"></div>
+      		    </div>
+        </div>
+    </div> 
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/DataAdmin/js/layer/layer.js"></script>
+<script type="text/javascript">
+        $.post("{:U('getnum')}",{},function(d){
+        	console.log(d);
+        	var info = d.result.info;
+        	var datas =  new Array();
+        	var nums = new Array();
+        	for(var i=0;i<info.length;i++){
+        		var aa = info[i]['cc'];
+        		var bb = info[i]['num'];
+        		datas.push(aa);
+        		nums.push(bb);
+        	}
+        	// 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: '交易量走势'
+                },
+                tooltip: {},
+                legend: {
+                    data:['交易量']
+                },
+                xAxis: {
+                    data:datas,
+                    axisLabel:{  
+                        interval:0,//横轴信息全部显示  
+                        rotate:-5,//-30度角倾斜显示  
+                    }  
+                },
+                yAxis: {
+                },
+                series: [{
+                    name: '销量',
+                    type: 'line',
+                    //type: 'bar',
+                	data:nums
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },"json");
+        
+        $.post("{:U('getmoney')}",{},function(d){
+        	console.log(d);
+        	var info = d.result.info;
+        	var datas =  new Array();
+        	var nums = new Array();
+        	for(var i=0;i<info.length;i++){
+        		var aa = info[i]['cc'];
+        		var bb = info[i]['num'];
+        		datas.push(aa);
+        		nums.push(bb);
+        	}
+        	// 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('mains'));
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: '交易额走势'
+                },
+                tooltip: {},
+                legend: {
+                    data:['交易额']
+                },
+                xAxis: {
+                    data:datas,
+                    axisLabel:{  
+                        interval:0,//横轴信息全部显示  
+                        rotate:-5,//-30度角倾斜显示  
+                    }  
+                },
+                yAxis: {
+                },
+                series: [{
+                    name: '交易额',
+                    type: 'line',
+                    //type: 'bar',
+                	data:nums
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },"json");
+</script>
+<include file="Public/footer"/>

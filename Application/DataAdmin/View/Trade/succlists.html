@@ -1,0 +1,168 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/js/showdate.js"></script>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>成交记录</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                    <!--搜索开始-->
+		             <form name="search" action="__ACTION__" id="searchForm" method="post">
+		             <div class="search-box row">
+						<div class="col-md-13">
+							<div class="form-group">
+								<span class="pull-left form-span">成交单号：</span>
+								<input type="text" name="transno" value="{:I('transno')}" class="form-control" placeholder=""  style="width:200px;">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">卖出流水号：</span>
+								<input type="text" name="transno_sell" value="{:I('transno_sell')}" class="form-control" placeholder="" style="width:200px;">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">买入流水号：</span>
+								<input type="text" name="transno_buy" value="{:I('transno_buy')}" class="form-control" placeholder="" style="width:200px;">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">申请时间:</span>
+								<div class="col-sm-4">
+									<input type="text" id="st" name="btime" value="{:I('btime')}" onclick="return Calendar('st');" value=""  placeholder="请选择申请开始时间" class="form-control" style="width:125px;"/>
+								</div>
+								<span class="pull-left form-span">&nbsp;&nbsp;&nbsp;&nbsp;----</span>
+								<div class="col-sm-4">
+									<input type="text" id="et" value="{:I('etime')}" onclick="return Calendar('et');" placeholder="申请开始时间" value="" name="etime" class="form-control" style="width:125px;"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<button class="form-control btn btn-default" id="searchBtn"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+							</div>
+						</div>
+                    </div>
+		             </form>   	
+					<!--搜索结束-->
+					<div class="clearfix"></div>
+					<!--内容开始-->
+					<form id="listForm" method="post">
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+								<tr>
+									<th class="w5" style="text-align:center;">#</th>
+									<th class="w12" style="text-align:center;">成交订单号</th>
+									<th class="w8" style="text-align:center;">数量</th>
+									<th class="w8"  style="text-align:center;">价格</th>
+									<th class="w8"  style="text-align:center;">买入用户</th>
+									<th class="w8"  style="text-align:center;">卖出用户</th>
+									<th class="w10" style="text-align:center;">买入流水号</th>
+									<th class="w12" style="text-align:center;">卖出流水号</th>
+									<th class="w10" style="text-align:center;">生成时间</th>
+									<th class="w12" style="text-align:center;">手续费</th>
+								</tr>
+							</thead>							
+						<notempty name="list">
+							<tbody>
+								<volist name="list" id="vo" key="val">
+									<tr class="long-td">
+										<td class="text-center">{$vo.id}</td>	
+										<td class="text-center">{$vo.transno}</td>
+										<td class="text-center">{$vo.num}</td>
+										<td class="text-center">{$vo.price}</td>
+										<td class="text-center">{$vo.buyname}【{$vo.buy_uid}】</td>
+										<td class="text-center">{$vo.sellname}【{$vo.sell_uid}】</td>
+										<td class="text-center">{$vo.transno_buy}</td>
+										<td class="text-center">{$vo.transno_sell}</td>
+										<td class="text-center">
+											{$vo.ctime|date="Y-m-d H:i:s",###}
+										</td>
+										<td class="text-center">
+											{$vo.fee}
+										</td>
+									</tr>
+								</volist>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="13">
+											<div class="pull-right">
+												<nav class="pagination">{$page}</nav>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+						<else/>
+
+								<tr>
+									<td colspan="13" class="text-center">
+										没有数据啦！
+									</td>
+								</tr>
+						</notempty>
+							
+						</table>
+                    </div>
+					</form>
+					<!--内容结束-->
+                </div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/DataAdmin/js/layer/layer.js"></script>
+<script type="text/javascript">
+$(function(){
+    var url = "{:U("detail",'','')}";
+    $(".orderprocess").click(function(){
+        var orderid = $(this).data('id');
+        url += "/id/"+orderid;
+        var index = layer.open({
+            type: 2,
+            title:"充值详情",
+            content: url,
+            area: ['800px', '650px'],
+            skin: 'layui-layer-rim',
+            maxmin: true,
+            scrollbar: true,
+        });
+        layer.full(index);
+    });
+    
+  //上传图片
+   	bind_uploadOne({
+   		uploadUrl : '{:U("DataAdmin/Upload/uploadexcel")}',
+   		bind : '#upload_exl',
+   		dataType : 'JSON',
+   		callback : function(data,el){
+   			    var index = layer.load(1, {
+				  shade: [0.3,'#000'] //0.1透明度的白色背景
+				});
+   			var url = data.url;
+   			if(data.state == "SUCCESS"){
+   				$.post("{:U('Upload/add_balance')}",{"url":url},function(data){
+   					console.log(data);
+   					var data =  eval('(' + data + ')');
+					layer.closeAll();
+   					if(data.returnCode=="SUCCESS"){
+   						msg("处理成功");
+   					}else{
+   						msg("处理失败");
+   					}
+   				})
+   			}else{
+   				msg("上传失败");
+   			}
+   		}
+   	})
+});
+</script>
+<include file="Public/footer"/>

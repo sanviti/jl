@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>订单详情</title>
+<link href="__PUBLIC__/DataAdmin/css/bootstrap.min.css" rel="stylesheet">
+<link href="__PUBLIC__/DataAdmin/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+<link href="__PUBLIC__/DataAdmin/bootstrap-table/bootstrap-editable.css" rel="stylesheet">
+<link href="__PUBLIC__/DataAdmin/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="__PUBLIC__/DataAdmin/css/style.min.css?v=4.0.0" rel="stylesheet">
+<script src="__PUBLIC__/DataAdmin/js/jquery.min.js"></script>
+<script src="__PUBLIC__/DataAdmin/js/bootstrap.min.js?v=3.3.5"></script>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/js/plugins/layer/layer.min.js"></script>
+
+<style type="text/css">
+.rightText {
+	text-align: left;
+	color: #555;
+	line-height: 30px;
+	font-weight: 400;
+}
+
+.amount {
+	font-size: 18px;
+	color: red;
+	font-family: Arial, Verdana, "\5b8b\4f53";
+}
+
+.bd {
+	font-weight: bold;
+	font-family: Arial, Verdana, "\5b8b\4f53";
+}
+
+.hr {
+	height: 0px;
+	line-height: 0px;
+	font-size: 0px;
+	border-bottom: 1px solid #f5f5f5;
+	margin-bottom: 5px;
+}
+
+.form-group {
+	margin-bottom: 5px !important;
+}
+
+.switchery {
+	height: 20px !important;
+	width: 40px !important;
+}
+
+.switchery>small {
+	height: 20px !important;
+	width: 20px !important;
+}
+
+.radio {
+	padding-top: 0 !important;
+}
+
+.red {
+	color: red
+}
+
+.green {
+	color: green;
+}
+</style>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form class="form-horizontal form-border" id="form" method="post">
+						<input name="orderid" value="{$data.id}" type="hidden" id="orderid"/>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">订单号</label>
+							<div class="col-sm-2 rightText">{$data.ordersn}</div>
+							<label class="col-sm-1 control-label">用户id</label>
+							<div class="col-sm-2 rightText">{$data.userid}</div>
+						</div>
+						<div class="hr"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">汇款人姓名</label>
+							<div class="col-sm-2 rightText">{$data.name}</div>
+							<label class="col-sm-1 control-label">汇款金额</label>
+							<div class="col-sm-2 rightText">{$data.money}&nbsp;<font color='red'>￥</font></div>
+						</div>
+						<div class="hr"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">汇款银行</label>
+							<div class="col-sm-2 rightText">{$data.bank}</div>
+							<label class="col-sm-1 control-label">汇款卡号</label>
+							<div class="col-sm-2 rightText">{$data.card}</div>
+						</div>
+						<div class="hr"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">汇款卡开户人</label>
+							<div class="col-sm-2 rightText">{$data.truename}</div>
+							<label class="col-sm-1 control-label">汇款支行</label>
+							<div class="col-sm-2 rightText">{$data.branch}</div>
+					    </div>
+					    <div class="hr"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">收款银行</label>
+							<div class="col-sm-2 rightText">{$data.com_bank}</div>
+							<label class="col-sm-1 control-label">收款卡号</label>
+							<div class="col-sm-2 rightText">{$data.com_card}</div>
+						</div>
+						<div class="hr"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">收款卡开户人</label>
+							<div class="col-sm-2 rightText">{$data.com_truename}</div>
+							<label class="col-sm-1 control-label">收款支行</label>
+							<div class="col-sm-2 rightText">{$data.com_sub}</div>
+					    </div>
+					    <div class="hr"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">汇款时间</label>
+							<div class="col-sm-2 rightText">{$data.ctime|date="Y-m-d H:i:s",###}</div>
+							<label class="col-sm-1 control-label">订单状态</label>
+							<div class="col-sm-2 rightText">
+							   <switch name="data.state">
+							      <case value="0">未处理</case>
+							      <case value="1">已充值</case>
+							      <case value="-1">已拒绝</case>
+							   </switch>
+							</div>
+						</div>
+						<div class="hr"></div>
+						<if condition="$data.state neq 0">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">处理时间</label>
+								<div class="col-sm-2 rightText">{$data.ptime|date="Y-m-d H:i:s",###}</div>
+							</div>
+							<div class="hr"></div>
+						</if>
+						<if condition="$data.state neq 1">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">拒绝原因</label>
+							<div class="col-sm-2 rightText">
+							  <input type="text" name="remark" value="{$data.remark}" id='remark' size='100'/>
+							</div>
+						</div>
+						<div class="hr"></div>
+						</if>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+							    <if condition="$data.state eq 0">
+									<button type="button" class="btn btn-success" onclick="sureorder()">确认充值</button>
+									<button type="button" class="btn btn-success" onclick="refuseorder()">确认拒绝</button>
+								</if>
+								<a href="javascript:;" class="btn btn-default closeIframe">关闭</a>
+							</div>
+						</div>
+						<div class="hr"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<js file="__PUBLIC__/DataAdmin/js/plugins/switchery/switchery.js" />
+<!--IOS开关样式-->
+<css file="__PUBLIC__/DataAdmin/css/plugins/switchery/switchery.css" />
+<js file="__PUBLIC__/DataAdmin/js/plugins/iCheck/icheck.min.js" />
+<script type="text/javascript">
+	$(document).ready(function(){
+	    var index = parent.layer.getFrameIndex(window.name);
+	    $('.closeIframe').click(function(){
+	        parent.layer.close(index);
+	    });
+	});
+	var elem = document.querySelector('.js-switch');
+	        var switchery = new Switchery(elem, {
+	            color: '#1AB394',
+	});
+	        
+    /*确认充值*/
+    function sureorder(){
+    	var orderid = $("#orderid").val();
+    	if(orderid==""){
+    		layer.msg("请选择处理订单");
+    	}
+    	$.post("{:U('sureorder')}",{"orderid":orderid},function(message){
+    		if(message.returnCode=='SUCCESS'){
+    			layer.msg("充值成功");
+    		}else{
+    			layer.msg("充值失败");
+    		}
+    		location.href="__ACTION__/id/"+orderid;
+    	},"json")
+    }
+	
+    /*确认拒绝*/
+    function refuseorder(){
+    	var orderid = $("#orderid").val();
+    	var remark = $("#remark").val();
+    	if(orderid==""){
+    		layer.msg("请选择处理订单");
+    		return false;
+    	}
+    	if(remark==""){
+    		layer.msg("请填写拒绝原因");
+    		return false;
+    	}
+    	$.post("{:U('refuseorder')}",{"orderid":orderid,"remark":remark},function(message){
+    		if(message.returnCode=='SUCCESS'){
+    			layer.msg("操作成功");
+    		}else{
+    			layer.msg("操作失败");
+    		}
+    		location.href="__ACTION__/id/"+orderid;
+    	},"json");
+    }
+</script>
+</html>

@@ -1,0 +1,86 @@
+<include file="Public/header"/>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.all.min.js"></script>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+                    <div class="pull-left">
+                    <h4>添加银行卡</h4>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                <!--内容开始-->
+                    <form class="form-horizontal" method="post" action="{:U('adds')}"  id="signupForm">
+                    		<div class="form-group">
+                                <label class="col-sm-2 control-label">名称：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="name"  id="name" dataType="*" placeholder="名称" class="form-control" style="width:400px;">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                    		<div class="form-group">
+                                <label class="col-sm-2 control-label">银行名称：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="bankname"  id="bankname" dataType="*" placeholder="银行名称" class="form-control" style="width:400px;">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">支行名称：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="subbank"  id="subbank" dataType="*" placeholder="支行名称" class="form-control" style="width:400px;">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">银行卡号：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="card"  id="card" dataType="*" placeholder="银行卡号" class="form-control" style="width:400px;">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开户人：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="truename"  id="truename" dataType="*" placeholder="开户人" class="form-control" style="width:400px;">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用途：</label>
+                                <div class="col-sm-2">
+									<select name="type" class="form-control">
+									    <option value="">-选择-</option>
+									    <option value="1">充值</option>
+									    <option value="2">提现</option>
+									</select>
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-success" id="btn" >提交</button>
+                                    <a class="btn btn-danger" href="">取消</a>
+                                </div>
+                            </div>
+                        </form>
+
+                <!--内容开始-->
+                </div>
+
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+</script>
+<include file="Public/footer"/>

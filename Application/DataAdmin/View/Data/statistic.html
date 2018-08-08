@@ -1,0 +1,93 @@
+<include file="Public/header"/>
+<body>
+<style>
+.pagediv{position: relative;}
+.pagediv .pageul{width:150px;background:#fff;position: absolute;top:57px;
+                 border:1px solid #ddd;border-bottom:none; display:none;}
+.pagediv .pageul li{border-bottom:1px solid #ddd;font-size:14px;text-align: center;height:30px;line-height:30px;cursor: pointer;}
+.pagediv .pageul li:hover{background:#32CD99; color:white;}
+</style>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>数据统计</h4>         
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+					<!--内容开始-->
+				    <div class="page-header pagediv">
+		              	<div class="pull-left">
+		                	<h4 id="his"><button>历史数据</button></h4>        
+		            	</div>
+				            <ul class="pageul">
+				            	   <volist name="his" id="vo">
+				            		<li value="{$vo.id}">{$vo.time|date="Y-m-d",###}</li>	
+				            	   </volist>            		
+				            </ul>
+	            	</div>
+					<form id="listForm" method="post">
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+								<tr>
+									<th class="w5" style="text-align:center;">类别</th>
+									<th class="w5" style="text-align:center;">兑换key总数</th>
+									<th class="w10"  style="text-align:center;">平台金链数量</th>
+									<th class="w10"  style="text-align:center;">金链价格</th>
+									<th class="w10"  style="text-align:center;">买入成交总数</th>
+									<th class="w10"  style="text-align:center;">卖出成交总数</th>
+									<th class="w10" style="text-align:center;">平台key总数</th>
+								</tr>
+							</thead>
+							<tbody>
+									<tr class="long-td">
+										<td class="text-center">数量</td>	
+										<td class="text-center" id="exchangekey"><if condition="$exchangekey eq ''">0.00<else/>{$exchangekey}</if></td>	
+										<td class="text-center" id="chainnum"><if condition="$chainnum eq ''">0.00<else/>{$chainnum}</if></td>	
+										<td class="text-center" id="chainprice">{$chainprice}</td>
+										<td class="text-center" id="buynum"><if condition="$buynum eq ''">0.00<else/>{$buynum}</if></td>
+										<td class="text-center" id="sellnum"><if condition="$buynum eq ''">0.00<else/>{$buynum}</if></td>
+										<td class="text-center" id="balance"><if condition="$balance eq ''">0.00<else/>{$balance}</if></td>
+									</tr>
+								</tbody>							
+						</table>
+                    </div>
+					</form>
+					<!--内容结束-->
+                </div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/DataAdmin/js/layer/layer.js"></script>
+<script type="text/javascript">
+	$("#his").click(function(){
+		$(".pageul").show();
+	})
+	$(".pageul li").click(function(e){
+		var value = $(this).val();
+		$.post("{:U('hisdata')}",{"id":value},function(d){
+			var result = d.result;
+			$("#exchangekey").text("").text(result.exchangekey);
+			$("#chainnum").text("").text(result.chainnum);
+			$("#chainprice").text("").text(result.chainprice);
+			$("#buynum").text("").text(result.buynum);
+			$("#sellnum").text("").text(result.buynum);
+			$("#balance").text("").text(result.balance);
+			$("#his").text("").text(result.time+"历史数据");
+		},"json");
+		$(".pageul").hide();
+	})
+
+</script>
+<include file="Public/footer"/>

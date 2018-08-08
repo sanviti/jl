@@ -1,0 +1,71 @@
+<include file="Public/header"/>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.all.min.js"></script>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+                    <div class="pull-left">
+                    <h4>添加用户</h4>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                <!--内容开始-->
+                    <form class="form-horizontal" method="post" action="{:U('Notice/edit_notice',array('id'=>$detail['id']))}"  id="signupForm">
+                    		<input type="hidden" name="id" value="{$detail.id}">
+                    		<div class="form-group">
+                                <label class="col-sm-2 control-label">消息标题：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="title"  id="title" dataType="*" placeholder="消息标题" class="form-control" style="width:560px;" value="{$detail.title}">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">消息内容：</label>
+                               <div class="col-sm-10">
+									<script type="text/plain" id="editor" name="info" style="width:77%;height:250px;">{$detail.info|htmlspecialchars_decode|stripslashes}</script>
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="hr-line-dashed"></div>
+                            <!-- <div class="form-group">
+                                <label class="col-sm-2 control-label">显示类型：</label>
+                                <div class="col-sm-4 one">
+									<input type="radio"  name="type" value='0' <if condition="$detail.type eq 0">checked</if>>不展示&nbsp;&nbsp;&nbsp;
+									<input type="radio"  name="type" value='1' <if condition="$detail.type eq 1">checked</if>>展示一次&nbsp;&nbsp;&nbsp;
+									<input type="radio"  name="type" value='2' <if condition="$detail.type eq 2">checked</if>>展示多次
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div> -->
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-success" id="btn" >提交</button>
+                                    <a class="btn btn-danger" href="">取消</a>
+                                </div>
+                            </div>
+                        </form>
+
+                <!--内容开始-->
+                </div>
+
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+</script>
+<script type="text/javascript">
+			var ue = UE.getEditor('editor');
+			 // 自定义的编辑器配置项,此处定义的配置项将覆盖editor_config.js中的同名配置
+			var editor_a = new baidu.editor.ui.Editor(editorOption);
+			editor_a.render('editor');
+</script>
+<include file="Public/footer"/>

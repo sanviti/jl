@@ -1,0 +1,273 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/js/showdate.js"></script>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>卖出记录</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                    <!--搜索开始-->
+		             <form name="search" action="__ACTION__" id="searchForm" method="post">
+		             <div class="search-box row">
+						<div class="col-md-13">
+							<div class="form-group">
+								<span class="pull-left form-span">交易流水号：</span>
+								<input type="text" name="transno" value="{:I('transno')}" class="form-control" placeholder=""  style="width:200px;">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">申请时间:</span>
+								<div class="col-sm-4">
+									<input type="text" id="st" name="btime" value="{:I('btime')}" onclick="return Calendar('st');" value=""  placeholder="请选择申请开始时间" class="form-control" style="width:125px;"/>
+								</div>
+								<span class="pull-left form-span">&nbsp;&nbsp;&nbsp;&nbsp;----</span>
+								<div class="col-sm-4">
+									<input type="text" id="et" value="{:I('etime')}" onclick="return Calendar('et');" placeholder="申请开始时间" value="" name="etime" class="form-control" style="width:125px;"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<button class="form-control btn btn-default" id="searchBtn" style="font-size: 12px;"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+							</div>
+						</div>
+                    </div>
+		             </form>
+
+						<div class="search-box row">
+							<div class="col-md-13">
+								<div class="form-group">
+									<input type="text" name="num"  class="form-control" placeholder="认真核对今日卖单量后填写"  style="width:200px;" id="num">
+								</div>
+								<div class="form-group">
+									<button class="form-control btn btn-default" id="AddBtn" style="font-size: 12px;"><span class="glyphicon "></span> 添加买单量</button>
+								</div>
+							</div>
+						</div>
+					<button class="form-control btn btn-default" id="buy" style="font-size: 12px;"><span class="glyphicon "></span> 开始匹配</button>
+					<!--搜索结束-->
+					<div class="clearfix"></div>
+					<div class="page-header">
+						<div class="pull-left">
+							<h4>今日操盘买单量</h4>
+						</div>
+					</div>
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover" >
+							<thead>
+							<tr>
+								<th class="w12" style="text-align:center;"></th>
+								<th class="w12" style="text-align:center;">交易流水号</th>
+								<th class="w5" style="text-align:center;">数量</th>
+								<th class="w5" style="text-align:center;">成交数量</th>
+								<th class="w5"  style="text-align:center;">价格</th>
+								<th class="w10" style="text-align:center;">生成时间</th>
+								<th class="w3" style="text-align:center;">状态</th>
+								<th class="w3" style="text-align:center;">是否结算</th>
+								<th class="w3" style="text-align:center;">结算时间</th>
+							</tr>
+							</thead>
+							<notempty name="backStageBuyList">
+								<tbody>
+									<tr class="long-td">
+										<td class="text-center">今日操盘买单量</td>
+										<td class="text-center">{$backStageBuyList.transno}</td>
+										<td class="text-center">{$backStageBuyList.num}</td>
+										<td class="text-center">{$backStageBuyList.succnum}</td>
+										<td class="text-center">{$backStageBuyList.price}</td>
+										<td class="text-center">
+											<if condition="$backStageBuyList.ctime eq ''">
+												[--/--/-- --：--]
+												<else/>
+												{$backStageBuyList.ctime|date="Y-m-d H:i:s",###}
+											</if>
+										</td>
+										<td class="text-center">
+											<switch name="backStageBuyList.status">
+												<case value="1">交易中</case>
+												<case value="2">交易成功</case>
+												<case value="3">已撤单</case>
+											</switch>
+										</td>
+										<td class="text-center">
+											<switch name="backStageBuyList.isclose">
+												<case value="0">否</case>
+												<case value="1">是</case>
+											</switch>
+										</td>
+										<td class="text-center">
+											<if condition="$backStageBuyList.ptime eq ''">
+												[--/--/-- --：--]
+												<else/>
+												{$backStageBuyList.ptime|date="Y-m-d H:i:s",###}
+											</if>
+										</td>
+									</tr>
+								</tbody>
+								<else/>
+
+								<tr>
+									<td colspan="13" class="text-center">
+										今日暂无挂买单
+									</td>
+								</tr>
+							</notempty>
+
+						</table>
+					</div>
+
+					<div class="clearfix"></div>
+					<div class="page-header">
+						<div class="pull-left">
+							<h4>当前卖单列表</h4>
+						</div>
+					</div>
+					<!--内容开始-->
+					<form id="listForm" method="post">
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+							<tr>
+								<th colspan="9" style="text-align:center;" id="total">{$total}</th>
+							</tr>
+								<tr>
+									<th class="w12" style="text-align:center;">交易流水号</th>
+									<th class="w8" style="text-align:center;">数量</th>
+									<th class="w8"  style="text-align:center;">价格</th>
+									<th class="w8"  style="text-align:center;">用户id</th>
+									<th class="w10" style="text-align:center;">生成时间</th>
+									<th class="w12" style="text-align:center;">状态</th>
+									<th class="w12" style="text-align:center;">是否结算</th>
+									<th class="w12" style="text-align:center;">结算时间</th>
+								</tr>
+							</thead>							
+						<notempty name="list">
+							<tbody>
+								<volist name="list" id="vo" key="val">
+									<tr class="long-td">
+										<td class="text-center">{$vo.transno}</td>
+										<td class="text-center">{$vo.num}</td>
+										<td class="text-center">{$vo.price}</td>
+										<td class="text-center">{$vo.name}【{$vo.uid}】</td>
+										<td class="text-center">
+											{$vo.ctime|date="Y-m-d H:i:s",###}
+										</td>
+										<td class="text-center">
+										   <switch name="vo.status">
+										       <case value="1">交易中</case>  
+										       <case value="2">交易成功</case>  
+										       <case value="3">已撤单</case>  
+										   </switch>
+										</td>
+										<td class="text-center">
+										   <switch name="vo.isclose"> 
+										       <case value="0">否</case>  
+										       <case value="1">是</case>   
+										   </switch>
+										</td>
+										<td class="text-center">
+										  <if condition="$vo.ptime eq ''">
+											  [--/--/-- --：--]
+										     <else/>{$vo.ptime|date="Y-m-d H:i:s",###}
+										  </if>
+										</td>
+									</tr>
+								</volist>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="13">
+											<div class="pull-right">
+												<nav class="pagination">{$page}</nav>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+						<else/>
+
+								<tr>
+									<td colspan="13" class="text-center">
+										没有数据啦！
+									</td>
+								</tr>
+						</notempty>
+							
+						</table>
+                    </div>
+					</form>
+					<!--内容结束-->
+                </div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/DataAdmin/js/layer/layer.js"></script>
+<include file="Public/footer"/>
+<script type="text/javascript">
+
+//	window.setInterval("countTotal()",7000);
+//	function  countTotal(){
+//		var url='{:U("sellTotal")}';
+//		var data={};
+//		var params = {
+//			url : url,
+//			params : data,
+//			callback : function(data){
+//				var msgCallBack;
+//				if(data.status == 1){
+//					$('#total').html(data.info);
+//					msgCallBack = function(){
+//
+////						$('#total').html(data.info);
+//					}
+//				}
+//			}
+//		}
+//
+//		ajax(params);
+//	}
+	//添加买入量
+	$('#AddBtn').click(function(){
+		var num=$('#num').val();
+		var data ={
+			'num':num
+		};
+		confirm('确认新增买单量？',function(){
+			send('{:U("backStageAdd")}', data);
+		})
+	})
+
+	//开始匹配
+	$('#buy').click(function(){
+		var url='{:U("Buy/autoTransact")}'
+		var data={};
+		send(url,data);
+	});
+
+	function send(url, data){
+		var params = {
+			url : url,
+			params : data,
+			callback : function(data){
+				var msgCallBack;
+				if(data.status == 1){
+					msgCallBack = function(){
+						window.location.reload();
+					}
+				}
+				msg(data.info,msgCallBack,'',5);
+			}
+		}
+		ajax(params);
+	}
+
+</script>

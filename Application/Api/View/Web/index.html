@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<meta content="telephone=no" name="format-detection">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<title>注册</title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Api/Web/css/common.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Api/Web/css/bomb.css">
+</head>
+<body>
+<div class="content">
+	<div class="join">
+		<div class="joinbox">
+			<div class="logo">
+				<img src="__PUBLIC__/Api/Web/img/logo.png">
+			</div>
+			<ul class="joinul">
+				<li>
+                    <span><img src="__PUBLIC__/Api/Web/img/user.png"></span>
+                    <div class="slide-wapper">
+                        <input type="text" placeholder="请选用户类型" class="select-value2 input" value="普通用户" name="authtype" id="guoji">
+                    </div>
+                    <img src="__PUBLIC__/Api/Web/img/bottom.png" width="18" height="12" style="top: 17px;">
+                </li>
+				<input value="{$invitecode}" type="hidden" name="invitecode" id="invitecode" class="invitecode" readonly>
+				<li>
+					<span><img src="__PUBLIC__/Api/Web/img/user.png"></span>
+					<input type="text" value="" placeholder="请输入姓名" class="input" name="username" id="username">
+					<i class="close"><img src="__PUBLIC__/Api/Web/img/close.png"></i>
+				</li>
+				<li>
+					<span><img src="__PUBLIC__/Api/Web/img/phone.png"></span>
+					<input type="text" value="" placeholder="请输入手机号" class="input" name="phone" id="phone">
+					<i class="close"><img src="__PUBLIC__/Api/Web/img/close.png"></i>
+				</li>
+				<li>
+					<span><img src="__PUBLIC__/Api/Web/img/yzm.png"></span>
+					<input type="text" value="" placeholder="请输入验证码" class="input" name="vcode" id="vcode">
+					<a href="#" class="code" id="sendcode">获取验证码</a>
+				</li>
+				<li>
+					<span><img src="__PUBLIC__/Api/Web/img/pwd.png"></span>
+					<input type="password" value="" placeholder="请输入密码" class="input" name="pwd" id="pwd">
+					<i><img src="__PUBLIC__/Api/Web/img/eye.png" id="eye_img" onclick="hideShowPsw()"></i>
+				</li>
+				<li>
+					<span><img src="__PUBLIC__/Api/Web/img/pwd.png"></span>
+					<input type="password" value="" placeholder="请输入密码" class="input" name="cpwd" id="cpwd">
+					<i><img src="__PUBLIC__/Api/Web/img/eye.png" id="eye1_img" onclick="hideShowPsw1()"></i>
+				</li>
+				<li>
+					<input type="submit" value="下一步" class="submit" id ="reg">
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>	
+<script src="__PUBLIC__/Api/Web/js/jquery-3.3.1.min.js"></script>
+<script src="__PUBLIC__/Api/Web/js/index.js"></script>
+<script src="__PUBLIC__/Api/Web/js/layer.js"></script>
+<script>
+// 这里使用最原始的js语法实现，可对应换成jquery语法进行逻辑控制  
+var eyeImg = document.getElementById("eye_img");  
+var Input = document.getElementById("pwd"); 
+var eye1Img = document.getElementById("eye1_img");  
+var Input1 = document.getElementById("cpwd");  
+//隐藏text block，显示password block  
+function hideShowPsw(){  
+    if (Input.type == "password") {  
+        Input.type = "text";  
+        eyeImg.src = "__PUBLIC__/Api/Web/img/eye1.png";  
+    }else {  
+        Input.type = "password";  
+        eyeImg.src = "__PUBLIC__/Api/Web/img/eye.png";  
+    }  
+} 
+function hideShowPsw1(){  
+    if (Input1.type == "password") {  
+        Input1.type = "text";  
+        eye1Img.src = "__PUBLIC__/Api/Web/img/eye1.png";  
+    }else {  
+        Input1.type = "password";  
+        eye1Img.src = "__PUBLIC__/Api/Web/img/eye.png";  
+    }  
+} 
+
+$(function() {
+	//关闭按钮
+	$('#phone').focus(function(){
+		$('.close').css({'display':'flex'});
+	})
+	$('.close').click(function(){
+		$('#phone').val('');
+		$('.close').css({'display':'none'});
+	})
+
+	//弹框提示
+    function tip(msg,time) {
+        time = time || 2;
+        layer.open({
+            content: msg,
+            skin: 'msg',
+            time: time //2秒后自动关闭
+          });
+    }
+
+    $(".submit").click(checkForm);
+    $('#sendcode').click(sendVcode);
+    //获取短信验证
+    function sendVcode(){
+        var _this  = $(this);
+        var phone = $('#phone').val();
+        if(!isMobile(phone)){
+            tip('请输入正确的手机号');
+            $("#phone").focus();
+            return;
+        }
+
+        var validCode=true;
+		var time=59;
+		var code=$('.code');
+		if (validCode) {
+			validCode=false;
+			var t=setInterval(function(){
+				code.html('获取中'+time+'S');
+				//code.addClass("msgs1");
+				time--;
+				if(time==0){
+					clearInterval(t);
+					code.html("重新获取");
+					validCode=true;
+					//code.removeClass("msgs1");
+				}
+			},1000)
+		}
+		var mobile = $('#phone').val();
+        var param = {
+            url : "{:U('Vcode/web_reg_sms','','')}",
+            params : {
+                mobile : mobile,
+            },
+            callback : function(d){
+                console.log(d)
+                if(d.returnCode == "SUCCESS"){
+                    tip(d.returnMsg);
+                }else{
+                    tip(d.returnMsg);
+                }
+            }
+        }
+        ajax(param);
+    }
+
+    function checkForm(){
+    	var mobile = $.trim($("#phone").val());
+       if(!isMobile(mobile)){
+            tip('请输入正确的手机号');
+            $("#phone").focus();
+            return;
+        }
+        var vcode = $.trim($("#vcode").val());
+        if(vcode.length != 4){
+            tip("请输入验证码");
+            $("#vcode").focus();
+            return;
+        }
+        var pwd = $.trim($("#pwd").val());
+        if(pwd == ''){
+            tip("请输入您的密码");
+            $("#pwd").focus();
+            return;
+        }
+        if(pwd.length < 6){
+            tip("登陆密码不能小于6位");
+            $("#pwd").focus();
+            return;
+        }
+        if(pwd != $.trim($("#cpwd").val())) {
+            tip("两次密码不一致");
+            $("#cpwd").focus();
+            return;
+        }
+		var invitecode = $('#invitecode').val();
+		var authtype = $('#guoji').val();
+		var username = $('#username').val();
+		if(authtype=='普通用户'){
+			authtype = 1;
+		}
+		if(authtype=='社区用户'){
+			authtype = 2;
+		}
+
+        var param = {
+            url : "{:U('Web/register','','')}",
+            params : {
+                phone : mobile,
+                invitecode : invitecode,
+                vcode : vcode,
+                pwd : pwd,
+                authtype : authtype,
+                username : username
+            },
+            callback : function(d){
+                console.log(d)
+                if(d.returnCode == "SUCCESS"){
+                    tip(d.returnMsg);
+                    setTimeout(function(){
+                        window.location.href='{:U('Api/Web/download')}';
+                    },2000);
+                }else{
+                    tip(d.returnMsg);
+                }
+            }
+        }
+        ajax(param);
+		
+    };
+	function ajax(p){
+        console.log(p);
+        var index = layer.open({type:2});
+        $.post(p.url,p.params,function(data){
+            console.log(data);
+            layer.close(index);
+            if(typeof(p.callback) == 'function'){
+                p.callback(data);
+            }
+        },'json');
+    }
+    //粗略验证手机号
+    function isMobile(mobile){
+        var re = /^1[0-9]{10}$/;
+        var validCode=true;
+        if(re.test(mobile))
+            return true;
+        else
+            return false;
+    }
+});
+</script>
+</body>
+</html>

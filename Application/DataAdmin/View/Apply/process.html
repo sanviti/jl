@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<link href="__PUBLIC__/DataAdmin/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/css/body.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/css/style.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/css/dermadefault.css" title="blue" rel="stylesheet" class="bodyskin" />
+<link href="__PUBLIC__/DataAdmin/css/dermagreen.css" title="green" disabled="disabled" rel="stylesheet" class="bodyskin" />
+<link href="__PUBLIC__/DataAdmin/css/dermaorange.css" title="orange" disabled="disabled" rel="stylesheet" class="bodyskin" />
+<link href="__PUBLIC__/DataAdmin/css/templatecss.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/js/plugins/Validform/validform.css" rel="stylesheet"/>
+<js href="__PUBLIC__/DataAdmin/js/jquery-1.11.1.min.js" />
+<js href="__PUBLIC__/DataAdmin/js/plugins/layer/layer.min.js"/>
+<js href="__PUBLIC__/DataAdmin/js/plugins/Validform/Validform_v5.3.1_min.js"/>
+<js href="__PUBLIC__/DataAdmin/js/jquery.cookie.js" />
+<js href="__PUBLIC__/DataAdmin/js/bootstrap.min.js" />
+<js href="__PUBLIC__/DataAdmin/js/style.js" />
+</head>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.all.min.js"></script>
+<body>
+<div class="down-main" style="left:-150px; top:10px !important;">
+  <div class="right-product right-full">
+            <div class="container-fluid">
+              <div class="info-center">
+                <div class="clearfix"></div>
+                <div class="content-list">
+                <!--内容开始-->
+                    
+
+                <!--内容开始-->
+                </div>
+
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+</script>
+
+<script type="text/javascript">
+$(function(){
+	$("#style input").click(function(){
+		if(this.value == 1) {
+	        $('#remarks').hide();
+	    } else {
+	        $('#remarks').show();
+	    }
+	})
+	
+	var status = $("#status").val();
+	if(status==-1){
+		$('#remarks').show();
+	}
+})
+
+/* $(document).ready(function(){ */
+    $(".confirm").click(function(){
+        var type = $('#style input:radio:checked').val();
+        if(type == "undefined"){
+        	layer.msg("请选择操作类型");
+        	return false;
+        }else if(type == '-1') { //拒绝
+            if($('#remarks textarea').val() == '') {
+                layer.msg('请输入拒绝原因');
+                return false;
+            }else{
+                $("#form").submit();
+            }
+            //layer.confirm('请确认银行系统未打款，确认后余额将回到用户账户，您的操作记录将被保存到系统日志！', {icon: 3}, function(index){
+            //});
+        } else if(type == '1') {
+            layer.confirm('确定已给用户打款？', {icon: 3}, function(index){
+                $("#form").submit();
+            });
+        }
+    });
+    var index = parent.layer.getFrameIndex(window.name);
+    $('.closeIframe').click(function(){
+        parent.layer.close(index);
+    });
+/* }); */
+</script>
+<include file="Public/footer"/>

@@ -1,0 +1,162 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/jedate/jedate.js"></script>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+                    <div class="pull-left">
+                    <h4>审核用户</h4>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                <!--内容开始-->
+                    <form class="form-horizontal" method="post" action="{:U('Member/edituser',array('id'=>$detail['id']))}"  id="signupForm">
+                    		<input type="hidden" name="id" id="userid" value="{$detail.id}">
+                    		<div class="form-group">
+                                <label class="col-sm-2 control-label">姓名：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="user"  id="user" dataType="*" placeholder="用户名" class="form-control" readonly="readonly"style="width:560px;" value="{$detail.name|default=''}">
+								</div>
+                            </div>
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">注册手机号：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="user"  id="user" dataType="*" placeholder="用户名" class="form-control" readonly="readonly"style="width:560px;" value="{$detail.phone|default=''}">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">身份证号：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="user"  id="user" dataType="*" placeholder="身份证号"readonly="readonly" class="form-control" style="width:560px;" value="{$detail.idno|default=''}">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							<if condition="$detail.userlevel eq 2 ">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">身份证正面图：</label>
+									<div class="col-sm-2">
+										<a href="<?php echo "http://".$_SERVER['HTTP_HOST']; ?>{$detail.idno_front_img|default=''}" target="blank"><img src="<?php echo "http://".$_SERVER['HTTP_HOST']; ?>/{$detail.idno_front_img|default=''}" width="400px"/></a>
+									</div>
+								</div>
+								<div class="hr-line-dashed"></div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">身份证反面图：</label>
+									<div class="col-sm-2">
+										<a href="<?php echo "http://".$_SERVER['HTTP_HOST']; ?>{$detail.idno_back_img|default=''}" target="blank"><img src="<?php echo "http://".$_SERVER['HTTP_HOST']; ?>/{$detail.idno_back_img|default=''}" width="400px"/></a>
+									</div>
+								</div>
+								<div class="hr-line-dashed"></div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">手持身份证图：</label>
+									<div class="col-sm-2">
+										<a href="<?php echo "http://".$_SERVER['HTTP_HOST']; ?>{$detail.idno_hand_img|default=''}" target="blank"><img src="<?php echo "http://".$_SERVER['HTTP_HOST']; ?>/{$detail.idno_hand_img|default=''}" width="400px"/></a>
+									</div>
+								</div>
+								<div class="hr-line-dashed"></div>
+								</if>
+								
+								<div class="hr-line-dashed"></div>
+								 <if condition="$detail['userlevel'] eq 2 ">
+								 <div class="form-group">
+									<label class="col-sm-2 control-label">社区会员级别</label>
+									<div class="col-sm-6" style="width: 250px;">                                  
+											<input type="radio" name='teamlevel' value="1" <if condition="$detail['teamlevel'] eq 1 ">checked="checked"</if> />初级
+											<input type="radio" name='teamlevel' value="2" <if condition="$detail['teamlevel'] eq 2 ">checked="checked"</if>/>高级
+									</div>
+								</div>
+								<div class="hr-line-dashed"></div>
+								</if>
+							
+							
+	                        <div class="form-group">
+	                            <label class="col-sm-2 control-label">是否冻结</label>
+	                            <div class="col-sm-6" style="width: 250px;">                                  
+				                        <input type="radio" name='isfreeze' value="0" <if condition="$detail['isfreeze'] eq 0 ">checked="checked"</if> />正常
+				                        <input type="radio" name='isfreeze' value="1" <if condition="$detail['isfreeze'] eq 1 ">checked="checked"</if>/>冻结
+	                            </div>
+	                        </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+	                            <label class="col-sm-2 control-label">账号状态</label>
+	                            <div class="col-sm-6" style="width: 250px;">                                  
+				                        <input type="radio" name='is_lock' value="0" <if condition="$detail['is_lock'] eq 0 ">checked="checked"</if> />启用
+				                        <input type="radio" name='is_lock' value="1" <if condition="$detail['is_lock'] eq 1 ">checked="checked"</if>/>禁用
+	                            </div>
+	                        </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">未通过原因：</label>
+                                <div class="col-sm-2">
+									<input type="text"  name="remark"  id="remark" dataType="*" placeholder="未通过原因" class="form-control" style="width:560px;" value="{$detail.remark|default=''}">
+								</div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-success" id="btn" >通过</button>
+                                    <a href="#" class="btn btn-danger" id="unpass" target="blank"><i class="fa fa-pencil"></i> 不通过</a>
+                                </div>
+                            </div>
+                        </form>
+
+                <!--内容开始-->
+                </div>
+
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/Api/Web/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $('#unpass').click(unpass);
+    function unpass(){
+        var _this  = $(this);
+       
+		var id = $('#userid').val();
+		var remark = $('#remark').val();
+        var param = {
+            url : "{:U('Member/unpass','','')}",
+            params : {
+                id : userid,
+                remark : remark,
+            },
+            callback : function(d){
+                console.log(d)
+                if(d.returnCode == "SUCCESS"){
+                    tip(d.returnMsg);
+                }else{
+                    tip(d.returnMsg);
+                }
+            }
+        }
+        ajax(param);
+    }
+	
+	function ajax(p){
+        console.log(p);
+        var index = layer.open({type:2});
+        $.post(p.url,p.params,function(data){
+            console.log(data);
+            layer.close(index);
+            if(typeof(p.callback) == 'function'){
+                p.callback(data);
+            }
+        },'json');
+    }
+	
+</script>
+<include file="Public/footer"/>

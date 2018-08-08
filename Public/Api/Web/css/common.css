@@ -1,0 +1,284 @@
+*{ padding: 0; margin: 0; }
+html{ font-size:62.5%;}
+body,html{ position: relative; width: 100%; height: 100%;}
+body { background: #ffffff; font-family:'微软雅黑' !important; color:#000;}
+li { list-style: outside none none;}
+img { border: medium none; border:none;display: block;}
+a img { border:none;}
+.clear:after {content: "."; display: block; height: 0; clear: both;visibility: hidden; }
+.clear { *zoom: 1;}
+a{ text-decoration:none; outline:none;}
+input,button,textarea{ outline:none;}
+input[type=text], input[type=button], input[type=submit], input[type=file], button { cursor: pointer; -webkit-appearance: none; } 
+input[type="text"] { -webkit-appearance: none;}
+::-webkit-input-placeholder { color:#a9aaac; }
+::-moz-placeholder { color:#a9aaac; } /* firefox 19+ */
+:-ms-input-placeholder { color:#a9aaac; } /* ie */
+input:-moz-placeholder { color:#a9aaac; }
+input:-webkit-autofill {
+ -webkit-box-shadow: 0 0 0px 1000px #20232a inset;
+ -webkit-text-fill-color: #fff;
+}
+
+/*********** 头部 ***********/
+.content{ 
+	max-width:640px; margin:0 auto;
+	height: 100%;
+}
+.top{
+	width: 100%;background: #22252d;
+	text-align: center;
+	height: 50px;border-bottom: 1px solid #3a3c42;
+	position: fixed;top: 0;left: 0;right: 0;
+	box-sizing:border-box;
+}
+.top a{
+	display: block;line-height: 50px;
+	color: #fff;font-size: 19px;
+}
+
+/*********** 底部 ***********/
+.footer{
+	height: 50px; width: 100%;background: #1b1d24;
+	position: fixed;bottom: 0;left: 0;right: 0;
+}
+.footer ul{
+	display: flex;height: 50px;
+	justify-content:center;
+}
+.footer ul li{
+	width: 30%;
+	text-align: center;
+}
+.footer ul li a{
+	display:block;
+	color: #8d8e92;font-size: 1.2rem;
+	margin-top: 8px;
+}
+.footer ul li.on a{
+	color: #ffc600;
+}
+.footer ul li a img{
+	margin: 0 auto;margin-bottom: 2px;
+	width: 22px;height: 18px;
+}
+
+
+/*********** 注册 ***********/
+.join{
+	width:100%;min-height: 100%;
+	background: #20232a;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.joinbox{
+	width: 100%;
+}
+.joinbox .logo{
+	margin: 0 auto;
+	width: 123px;height: 123px;
+	margin-bottom: 33px;
+}
+.joinbox .logo img{
+	width: 100%;
+}
+.joinbox .joinul{
+	width: 100%;
+	box-sizing:border-box;
+	padding: 0 50px;width: 100%;
+}
+.joinbox .joinul li{
+	box-sizing:border-box;
+	width: 100%;
+	margin-top: 20px;
+	position: relative;
+}
+.joinbox .joinul li span{
+	position: absolute;
+	left: 20px;top: 15px;
+}
+.joinbox .joinul li span img{
+	width: 15px;height: 15px;
+}
+.joinbox .joinul li .input{
+	border:1px solid #fff;
+	border-radius: 4px;
+	height: 45px;width: 100%;
+	background: none;
+	box-sizing:border-box;
+	padding:0 30px 0 45px; 
+	font-size: 15px;color: #fff;
+}
+.joinbox .joinul li i{
+	position: absolute;
+	width: 30px;height:100%;
+	display: flex;justify-content: center;
+	align-items: center;right: 0;top: 0;
+}
+.joinbox .joinul li i.close{
+	display: none;
+}
+.joinbox .joinul li i img{
+	width: 20px;height: 20px;
+}
+.joinbox .joinul li .code{
+	position:absolute;
+	width:75px;height: 25px;
+	box-sizing:border-box;
+	border:1px solid #0096ff;
+	color: #0096ff;font-size: 12px;
+	text-align: center;line-height: 25px;
+	border-radius: 42px;right: 7px;
+	top: 10px;
+}
+.joinbox .joinul li .submit{
+	width: 100%;background: #0096ff;
+	font-size: 16px;color: #fff;
+	height: 45px;border:none;
+	border-radius: 4px;
+}
+.joinbox .joinul li .back{
+	color: #aaabac;font-size: 15px;
+	display: block;width: 100%;
+	text-align: right;
+}
+.joinbox .joinul li > img{
+	position: absolute;
+	right: 7px;top: 5px;
+}
+
+
+/*********** 下载页 ************/
+.container{
+	width:100%;height: 100%;
+	position: relative;
+	display: flex;align-items: center;
+	justify-content: center;
+}
+.container > img{
+	width:100%;height: 100%;
+	position: absolute;top: 0;left: 0;
+	right: 0;
+}
+.container .slide{
+	position: relative;
+	z-index: 10;width: 100%;
+}
+.container .prompt{
+	position:absolute;top: 0;
+	left: 0;right: 0;
+	background: #1f1f1f;
+	padding: 20px 37px;
+	display: none;
+}
+.container .prompt p{
+	color: #c7c7c7;font-size: 14px;
+	width: 80%;
+}
+.container .prompt img{
+	width: 57px;height: 36px;
+	position: absolute;right: 15px;
+	top: 10px;
+}
+.slide .boximg{
+	width: 100%;text-align: center;
+}
+.slide .boximg > img{
+	width: 123px;height: 123px;
+	margin: 0 auto;
+}
+.slide .boximg p{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	color: #fff;
+	font-size: 16px;
+	margin-top: 39px;
+}
+.slide .boximg p img{
+	width: 16px;height: 17px;
+	margin-right: 10px;
+}
+.slide .boximg span{
+	color: #fff;
+	font-size: 15px;
+	display: block;
+	margin-top: 17px;
+}
+.slide .boximg .ma{
+	width: 100%;display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 15px;
+	position:relative;
+}
+.slide .boximg .ma .kuang{
+	width: 82px;height: 82px;
+}
+.slide .boximg .ma .tu{
+	width: 72px;height: 72px;
+	position: absolute;
+}
+.footer1{
+	width: 100%;margin-top: 20px;
+}
+.footer1 a{
+	display: block;
+	color: #fff;font-size: 15px;
+	width: 150px;height: 40px;
+	background: #00a8ff;
+	border-radius: 3px;
+	line-height: 40px;
+	margin: 20px auto;
+}
+.footer1 a img{
+	float: left;
+	width: 16px;height: 17px;
+	margin:11px 17px 0 23px;
+}
+
+@media (max-width:320px) {
+	.invite .link span{width: 16%;}
+	.joinbox .joinul{padding: 0 25px;}
+}
+
+
+
+/*********** 规则 ************/
+.rule{
+	width: 100%;
+	margin-bottom:200px;
+	padding-bottom:200px;
+}
+.rule p{
+	color: #fefeff;font-size: 15px;
+	padding: 15px;padding-bottom: 0;
+}
+.rule span{
+	color: #fefeff;font-size: 13px;
+	padding: 3px 25px;padding-bottom: 0;
+	display: block;
+}
+.rule i{
+	font-style: normal;
+	color: #00a8ff;
+}
+.rule .rulefooter{
+	width: 100%;
+	text-align: center;
+	padding:50px 0 100px; 
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,99 @@
+<include file="Public/header"/>
+<body>
+<include file="Public/nav"/>
+<link rel="stylesheet" type="text/css" href="http://www.renrengyw.com/Public/Admin/js/plugins/datetimepick/css/lq.datetimepick.css"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>KEY价格管理</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+				
+<div class="col-sm-10">
+
+<form action="savePrice" class="form-inline" method="post" id="serche" class="form-inline">
+<div class="form-group"style="margin-top: 3px;">
+<label for="title" class="sr-only">KEY今日价格设置</label>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong  style="font-size:16px;">KEY今日价格设置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><input type="text" class="form-control input-sm" id="rname" placeholder="输入KEY今日价格" name="coinPrice" value="{$Think.request.rname}" size="20"style="font-size:14px;"></br>
+</div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<button button type="submit" class="btn btn-success btn-sm" style="font-size:14px;background-color:rgba(0,120,254,1);height:30px;width:90px;text-align:center;padding:0px;vertical-align:middle ;margin-right:-5px;">添加</button>
+</form>
+</div>
+</br>
+</br></br>
+<div class="col-sm-10">
+<form action="save_next_price" class="form-inline" method="post" id="serche" class="form-inline">
+<div class="form-group"style="margin-top: 3px;">
+<label for="title" class="sr-only">KEY今日价格设置</label>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong  style="font-size:16px;">KEY明日价格设置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><input type="text" class="form-control input-sm" id="rname" placeholder="输入KEY明日价格" name="coinPrice" value="{$Think.request.rname}" size="20"style="font-size:14px;"></br>
+</div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<button button type="submit" class="btn btn-success btn-sm" style="font-size:14px;background-color:rgba(0,120,254,1);height:30px;width:90px;text-align:center;padding:0px;vertical-align:middle ;margin-right:-5px;">添加</button>
+</form>
+
+
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5><!--<i class="fa fa-tasks"></i>--><span style="font-size:16px;">KEY历史价格列表</span></h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="long-tr">
+                        <th width="6%" class="tl">KEY价格</th>
+                        <th width="10%" class="tl">记录时间</th>
+						<th width="10%" class="tl">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="list" id="vo">
+                        <tr class="long-td">
+						
+                            <td class="tl">{$vo.price}</td>
+                            <td class="tl">{$vo.ctime|date='Y-m-d H:i:s',###}</td>
+							
+							 <td class="tl" ><if condition="$vo.editable eq 1 ">
+							 <form action="editprice" class="form-inline" method="post" id="serche" class="form-inline">
+							 <input name="priceid" value="{$vo.id}" id="priceid" type="hidden" />
+							 <input name="editprice" value="{$vo.price}" id="editprice" />
+							 <button button type="submit" class="btn btn-success btn-sm" style="font-size:14px;background-color:rgba(0,120,254,1);height:23px;width:60px;text-align:center;padding:0px;vertical-align:middle ;margin-right:-5px;">修改</button>
+							 </form>
+							 <else/>----</if></td>
+
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+                <div align="center" >
+                    <span class="KEYpages">{$page}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript" src="http://www.renrengyw.com/Public/Admin/js/plugins/datetimepick/js/lq.datetimepick.js"></script>
+<script type="text/javascript" src="http://www.renrengyw.com/Public//Admin/js/plugins/datetimepick/js/selectUi.js"></script>
+<script src="__PUBLIC__/Admin/layer/layer.js"></script>
+<script type="text/javascript">
+</script>
+<include file="Public/footer"/>

@@ -1,0 +1,213 @@
+<include file="Public/header"/>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>用户管理</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                	<!--搜索开始-->
+		            
+		             <div class="search-box row">
+						<div class="col-md-13"> <form id="listForm" method="post">
+							<div class="form-group">
+								<span class="pull-left form-span">姓名或手机号：</span>
+								<input type="text" name="keyword" value="{:I('keyword')}" class="form-control" placeholder="">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">用户身份：</span>
+								<select name="userlevel" class="form-control">
+								   <option value="{$userlevel}">-选择-</option>
+								   <option value="1" <if condition="$Think.request.userlevel heq '1'"> selected="selected"</if>>普通会员</option>
+								   <option value="2" <if condition="$Think.request.userlevel heq '2'"> selected="selected"</if>>社区会员</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">是否认证：</span>
+								<select name="iscertify" class="form-control">
+								   <option value="{$iscertify}">-选择-</option>
+								   <option value="1" <if condition="$Think.request.iscertify heq '1'"> selected="selected"</if>>已认证</option>
+								   <option value="0" <if condition="$Think.request.iscertify heq '0'"> selected="selected"</if>>未认证</option>
+								   <option value="2" <if condition="$Think.request.iscertify heq '2'"> selected="selected"</if>>待审核</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<button class="form-control btn btn-default"  type="submit"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+							</div> <a href="__ROOT__/DataAdmin/Member/userlist"><button class=" btn btn-default" id="">返回用户列表</button></a>
+						</div>
+                    </div>
+		              	
+					<!--搜索结束-->
+					<div class="clearfix"></div>
+					<!--内容开始-->
+					
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+								<tr>
+									<th class="w5" style="text-align:center;">编号</th>
+									<th class="w5"  style="text-align:center;">手机号</th>
+									<th class="w4" style="text-align:center;">姓名</th>
+									<th class="w5" style="text-align:center;">身份证号</th>
+									<th class="w4" style="text-align:center;">余额</th>
+									<th class="w4" style="text-align:center;">充值</th>
+									<th class="w5" style="text-align:center;">回购</th>
+									<th class="w5" style="text-align:center;">个人收益</th>
+									<th class="w5" style="text-align:center;">社区收益</th>
+									<th class="w5" style="text-align:center;">推荐人ID</th>
+									<th class="w5" style="text-align:center;">社区ID</th>
+									<th class="w5" style="text-align:center;">用户类型</th>
+									<th class="w5" style="text-align:center;">认证状态</th>
+									<th class="w5" style="text-align:center;">是否激活</th>
+									
+									<th style="text-align:center;">操作</th>
+								</tr>
+							</thead>
+							
+						<notempty name="list">
+							<tbody>
+								<volist name="list" id="vo" key="val">
+									<tr class="long-td">
+										<td class="text-center">{$vo.userid}</td>	
+										<td class="text-center">{$vo.phone}</td>
+										<td class="text-center">{$vo.name}</td>
+										<td class="text-center">{$vo.idno}</td>
+										<td class="text-center">{$vo.balance}</td>
+										<td class="text-center">{$vo.deposit}</td>
+										<td class="text-center">{$vo.buy_back}</td>
+										<td class="text-center">{$vo.pgain}</td>
+										<td class="text-center">{$vo.cgain}</td>
+										<td class="text-center">{$vo.leadid}</td>
+										<td class="text-center">{$vo.teamid}</td>
+										
+										<td class="text-center">
+											<if condition="$vo.userlevel eq 1">
+											普通
+											<elseif condition="$vo.userlevel eq 2" />
+											社区
+											</if>
+										</td>
+										<td class="text-center">
+										   <if condition="$vo.iscertify eq 0">
+											未认证
+											<elseif condition="$vo.iscertify eq 1" />
+											已认证
+											<elseif condition="$vo.iscertify eq 2" />
+											待审核
+											<elseif condition="$vo.iscertify eq 3" />
+											被驳回
+											</if>
+								        </td>
+										<td class="text-center">
+										   <if condition="$vo.is_pass eq 0">
+											未激活
+											<elseif condition="$vo.is_pass eq 1" />
+											已激活
+											<elseif condition="$vo.is_pass eq 2" />
+											待激活
+											</if>
+								        </td>
+										<!-- <td class="text-center">{$vo.add_time|date='Y-m-d',###}</td> -->
+										<td class="text-center">
+										<if condition="$vo.userlevel eq 2 ">
+										
+											<if condition="$vo.iscertify eq 2 ">
+												<a href="{:U('edituser',array('id'=>$vo['id']))}" class="btn btn-danger"><i class="fa fa-pencil"></i> 去审核</a>&nbsp;&nbsp;
+												<elseif condition="$vo.iscertify eq 1" />
+												<a href="#" class="btn btn-primary"><i class="fa fa-pencil"></i> 已审核</a>&nbsp;&nbsp;
+												<a href="{:U('edituser',array('id'=>$vo['id']))}" class="btn btn-danger"><i class="fa fa-pencil"></i> 编辑账号状态</a>&nbsp;&nbsp;
+											</if>
+										<else/>
+											<a href="{:U('edituser',array('id'=>$vo['id']))}" class="btn btn-danger"><i class="fa fa-pencil"></i> 编辑账号状态</a>&nbsp;&nbsp;
+										</if>
+										<if condition="$vo.userlevel eq 2 ">
+											<if condition="$vo.iscertify eq 0">
+											<a href="{:U('edituser',array('id'=>$vo['id']))}" class="btn btn-danger"><i class="fa fa-pencil"></i> 查看上传情况</a>
+											</if>
+										</if>
+										<!-- <a href="{:U('invite_list',array('id'=>$vo['id']))}" class="btn btn-danger" target="blank"><i class="fa fa-pencil"></i> 邀请明细</a> -->
+										
+											<a data-id="{$vo['id']}" class="btn btn-primary openWindow"><i class="fa fa-pencil"></i>邀请明细</a>
+										<a data-id="{$vo['id']}" class="btn btn-primary open"><i class="fa fa-pencil"></i>社区</a>
+										
+										
+									</tr>
+								</volist>
+								
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="15">
+											<div class="pull-right">
+												<nav class="pagination">{$page}</nav>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+								
+						<else/>
+
+								<tr>
+									<td colspan="10" class="text-center">
+										没有数据啦！
+									</td>
+								</tr>
+						</notempty>
+							
+						</table>
+                    </div>
+					</form>
+					<!--内容结束-->
+                </div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/DataAdmin/js/layer/layer.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".openWindow").click(function(){
+	    var id = $(this).data("id");
+	    url = "{:U("invite_list",'','')}"+"/id/"+id;
+	    var index = layer.open({
+	        type: 2,
+	        title:"邀请明细",
+	        content: url,
+	        area: ['800px', '650px'],
+	        shadeClose: true,
+	        skin: 'layui-layer-rim',
+	        maxmin: true,
+	        scrollbar: true,
+	    });
+	});
+	})
+	
+		$(function(){
+		$(".open").click(function(){
+	    var id = $(this).data("id");
+	    url = "{:U("inviter",'','')}"+"/id/"+id;
+	    var index = layer.open({
+	        type: 2,
+	        title:"邀请社区",
+	        content: url,
+	        area: ['800px', '650px'],
+	        shadeClose: true,
+	        skin: 'layui-layer-rim',
+	        maxmin: true,
+	        scrollbar: true,
+	    });
+	});
+	})
+</script>
+<include file="Public/footer"/>

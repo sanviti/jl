@@ -1,0 +1,121 @@
+<include file="Public/header"/>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>公司银行卡管理</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                	<div class="col-md-8" style="padding-left: 0px;width:400px;float:right;">
+                        <div class="btn-group " style="float:right; margin-left: 0px;" role="group" aria-label="...">
+                            <a  href="{:U('adds')}" class="btn btn-default batchdel" style="margin-right:20px;"><span class="glyphicon glyphicon-plus"></span> 添加</a>                         
+                        </div>
+                    </div>
+					<div class="clearfix"></div>
+					<!--内容开始-->
+					<form id="listForm" method="post">
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+								<tr>
+									<th class="w5" style="text-align:center;">编号</th>
+									<th class="w5" style="text-align:center;">名称</th>
+									<th class="w5" style="text-align:center;">银行名称</th>
+									<th class="w10" style="text-align:center;">支行</th>
+									<th class="w20"  style="text-align:center;">卡号</th>
+									<th class="w10" style="text-align:center;">开户人</th>
+									<th class="w10" style="text-align:center;">用途</th>
+									<th class="w15" style="text-align:center;">添加时间</th>
+									<th style="text-align:center;">操作</th>
+								</tr>
+							</thead>
+							
+						<notempty name="list">
+							<tbody>
+								<volist name="list" id="vo" key="val">
+									<tr class="long-td">
+										<td class="text-center">{$vo.id}</td>	
+										<td class="text-center">{$vo.name}</td>
+										<td class="text-center">{$vo.bankname}</td>
+										<td class="text-center">{$vo.subbank}</td>
+										<td class="text-center">{$vo.card}</td>
+										<td class="text-center">{$vo.truename}</td>
+										<td class="text-center">
+										   <if condition="$vo.type eq 1">充值
+										   <elseif condition="$vo.type eq 2"/>提现</if>
+									    </th>
+										<td class="text-center">{$vo.ctime|date="Y-m-d H:i",###}</td>
+										<td class="text-center">
+											<a href="{:U('edits',array('id'=>$vo['id']))}">编辑</a>
+											<span class="text-explode">|</span>
+											<a href="javascript:;" data="{$vo.id}" class="del">删除</a>
+										</td>
+									</tr>
+								</volist>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="10">
+											<div class="pull-right">
+												<nav class="pagination">{$page}</nav>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+						<else/>
+
+								<tr>
+									<td colspan="10" class="text-center">
+										没有数据啦！
+									</td>
+								</tr>
+						</notempty>
+							
+						</table>
+                    </div>
+					</form>
+					<!--内容结束-->
+                </div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/Admin/layer/layer.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//单个删除
+		$(document).on("click" ,'.del',function(){
+            var id = $(this).attr('data');
+            layer.confirm('确定删除？', {
+				  btn: ['确定','取消'] //按钮
+				}, function(){
+					$.ajax({
+						url:"{:U('delcombank')}",
+						data:{
+							"id"     :id
+						},
+						type:"post",
+						dataType:"json",
+						success:function(data){
+							layer.closeAll();
+							layer.msg(data.returnMsg);
+                            location.href="__ACTION__";
+							}
+						});
+				}
+			);
+        });
+	})
+</script>
+<include file="Public/footer"/>

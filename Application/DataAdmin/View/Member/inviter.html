@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<link href="__PUBLIC__/DataAdmin/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/css/body.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/css/style.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/css/dermadefault.css" title="blue" rel="stylesheet" class="bodyskin" />
+<link href="__PUBLIC__/DataAdmin/css/dermagreen.css" title="green" disabled="disabled" rel="stylesheet" class="bodyskin" />
+<link href="__PUBLIC__/DataAdmin/css/dermaorange.css" title="orange" disabled="disabled" rel="stylesheet" class="bodyskin" />
+<link href="__PUBLIC__/DataAdmin/css/templatecss.css" rel="stylesheet"/>
+<link href="__PUBLIC__/DataAdmin/js/plugins/Validform/validform.css" rel="stylesheet"/>
+<js href="__PUBLIC__/DataAdmin/js/jquery-1.11.1.min.js" />
+<js href="__PUBLIC__/DataAdmin/js/plugins/layer/layer.min.js"/>
+<js href="__PUBLIC__/DataAdmin/js/plugins/Validform/Validform_v5.3.1_min.js"/>
+<js href="__PUBLIC__/DataAdmin/js/jquery.cookie.js" />
+<js href="__PUBLIC__/DataAdmin/js/bootstrap.min.js" />
+<js href="__PUBLIC__/DataAdmin/js/style.js" />
+</head>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.all.min.js"></script>
+<body>
+<div class="down-main" style="left:-150px; top:10px !important;">
+  <div class="right-product right-full">
+            <div class="container-fluid">
+              <div class="info-center">
+                <div class="clearfix"></div>
+                <div class="content-list">
+                <!--内容开始-->
+				<span>邀请社区</span>
+                    <div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+								<tr>
+									<th class="w5" style="text-align:center;">编号</th>
+									<th class="w5"  style="text-align:center;">手机号</th>
+									<th class="w4" style="text-align:center;">姓名</th>
+									<th class="w5" style="text-align:center;">身份证号</th>
+									<th class="w4" style="text-align:center;">余额</th>
+									<th class="w4" style="text-align:center;">充值</th>
+									<th class="w5" style="text-align:center;">回购</th>
+									<th class="w5" style="text-align:center;">个人收益</th>
+									<th class="w5" style="text-align:center;">社区收益</th>
+									<th class="w5" style="text-align:center;">用户类型</th>
+									<th class="w5" style="text-align:center;">认证状态</th>
+									<th class="w5" style="text-align:center;">是否激活</th>
+									
+									
+								</tr>
+							</thead>
+							
+						<notempty name="list">
+							<tbody>
+								<volist name="list" id="vo" key="val">
+									<tr class="long-td">
+										<td class="text-center">{$vo.userid}</td>	
+										<td class="text-center">{$vo.phone}</td>
+										<td class="text-center">{$vo.name}</td>
+										<td class="text-center">{$vo.idno}</td>
+										<td class="text-center">{$vo.balance}</td>
+										<td class="text-center">{$vo.deposit}</td>
+										<td class="text-center">{$vo.buy_back}</td>
+										<td class="text-center">{$vo.pgain}</td>
+										<td class="text-center">{$vo.cgain}</td>
+										
+										<td class="text-center">
+											<if condition="$vo.userlevel eq 1">
+											普通
+											<elseif condition="$vo.userlevel eq 2" />
+											社区
+											</if>
+										</td>
+										<td class="text-center">
+										   <if condition="$vo.iscertify eq 0">
+											未认证
+											<elseif condition="$vo.iscertify eq 1" />
+											已认证
+											<elseif condition="$vo.iscertify eq 2" />
+											待审核
+											<elseif condition="$vo.iscertify eq 3" />
+											被驳回
+											</if>
+								        </td>
+										<td class="text-center">
+										   <if condition="$vo.is_pass eq 0">
+											未激活
+											<elseif condition="$vo.is_pass eq 1" />
+											已激活
+											<elseif condition="$vo.is_pass eq 2" />
+											待激活
+											</if>
+								        </td>
+										<!-- <td class="text-center">{$vo.add_time|date='Y-m-d',###}</td> -->
+										
+										
+										
+									</tr>
+								</volist>
+								
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="15">
+											<div class="pull-right">
+												<nav class="pagination">{$page}</nav>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+								
+						<else/>
+
+								<tr>
+									<td colspan="10" class="text-center">
+										没有数据啦！
+									</td>
+								</tr>
+						</notempty>
+							
+						</table>
+                    </div>
+
+                <!--内容开始-->
+                </div>
+
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+</script>
+
+<script type="text/javascript">
+$(function(){
+	$("#style input").click(function(){
+		if(this.value == 1) {
+	        $('#remarks').hide();
+	    } else {
+	        $('#remarks').show();
+	    }
+	})
+	
+	var status = $("#status").val();
+	if(status==-1){
+		$('#remarks').show();
+	}
+})
+
+/* $(document).ready(function(){ */
+    $(".confirm").click(function(){
+        var type = $('#style input:radio:checked').val();
+        if(type == "undefined"){
+        	layer.msg("请选择操作类型");
+        	return false;
+        }else if(type == '-1') { //拒绝
+            if($('#remarks textarea').val() == '') {
+                layer.msg('请输入拒绝原因');
+                return false;
+            }else{
+                $("#form").submit();
+            }
+            //layer.confirm('请确认银行系统未打款，确认后余额将回到用户账户，您的操作记录将被保存到系统日志！', {icon: 3}, function(index){
+            //});
+        } else if(type == '1') {
+            layer.confirm('确定已给用户打款？', {icon: 3}, function(index){
+                $("#form").submit();
+            });
+        }
+    });
+    var index = parent.layer.getFrameIndex(window.name);
+    $('.closeIframe').click(function(){
+        parent.layer.close(index);
+    });
+/* }); */
+</script>
+<include file="Public/footer"/>

@@ -1,0 +1,232 @@
+<include file="Public/header"/>
+<script type="text/javascript" src="__PUBLIC__/DataAdmin/js/showdate.js"></script>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>充值余额管理</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                    <!--搜索开始-->
+		             <form name="search" action="__ACTION__" id="searchForm" method="post">
+		             <div class="search-box row">
+						<div class="col-md-13">
+							<div class="form-group">
+								<span class="pull-left form-span">用户ID：</span>
+								<input type="text" name="userid" value="{:I('userid')}" class="form-control" placeholder="">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">手机号：</span>
+								<input type="text" name="phone" value="{:I('phone')}" class="form-control" placeholder="">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">汇款人姓名：</span>
+								<input type="text" name="name" value="{:I('name')}" class="form-control" placeholder="">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">处理状态：</span>
+								<select name="state" class="form-control">
+								   <option value="">-选择-</option>
+								   <option value="0" <if condition="$Think.request.state heq '0'"> selected="selected"</if>>未处理</option>
+								   <option value="1" <if condition="$Think.request.state heq '1'"> selected="selected"</if>>已打款</option>
+								   <option value="-1" <if condition="$Think.request.state heq '-1'"> selected="selected"</if>>已拒绝</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">申请时间:</span>
+								<div class="col-sm-4">
+									<input type="text" id="st" name="btime" onclick="return Calendar('st');" value=""  placeholder="请选择申请开始时间" class="form-control" style="width:125px;"/>
+								</div>
+								<span class="pull-left form-span">&nbsp;&nbsp;&nbsp;&nbsp;----</span>
+								<div class="col-sm-4">
+									<input type="text" id="et" onclick="return Calendar('et');" placeholder="申请开始时间" value="" name="etime" class="form-control" style="width:125px;"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<button class="form-control btn btn-default" id="searchBtn"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+							</div>
+						</div>
+                    </div>
+		             </form>  
+		             <form class="form-inline" method="post">
+                     <div class="col-sm-6">
+                       	上传充值余额Exl：<font color='red'>(请上传xls，xlsx类型的文件)</font><img id="upload_exl" class="img-circle" src="__ROOT__/Public/DataAdmin/images/upload_img.png" style="width: 80px;height: 80px" />
+                    </div>
+                	</form>  	
+					<!--搜索结束-->
+					<div class="clearfix"></div>
+					<!--内容开始-->
+					<form id="listForm" method="post">
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+								<tr>
+									<th class="w5" style="text-align:center;">#</th>
+									<th class="w8" style="text-align:center;">订单号</th>
+									<th class="w8"  style="text-align:center;">用户身份</th>
+									<th class="w8"  style="text-align:center;">用户id</th>
+									<th class="w8"  style="text-align:center;">用户手机号</th>
+									<th class="w10" style="text-align:center;">汇款金额</th>
+									<th class="w10" style="text-align:center;">汇款人姓名</th>
+									<th class="w12" style="text-align:center;">汇款人银行</th>
+									<th class="w12" style="text-align:center;">汇入银行</th>
+									<th class="w8" style="text-align:center;">申请时间</th>
+									<th class="w5" style="text-align:center;">处理进度</th>
+									<th class="w8" style="text-align:center;">处理时间</th>
+									<th style="text-align:center;">操作</th>
+								</tr>
+							</thead>							
+						<notempty name="list">
+							<tbody>
+								<volist name="list" id="vo" key="val">
+									<tr class="long-td">
+										<td class="text-center">{$vo.id}</td>	
+										<td class="text-center">{$vo.ordersn}</td>
+										<td class="text-center">
+											<eq name="vo.userlevel" value="1">
+											普通会员
+											<else/>
+											社区会员
+											</eq>
+										</td>
+										<td class="text-center">
+											{$vo.userid}
+										</td>
+										<td class="text-center">
+											{$vo.phone}
+										</td>
+										<td style="padding-left:30px;">
+											充值金额：{$vo.money}<font color='red'>￥</font><br>
+											<!-- 换算：{$vo.usdc}<font color='red'>$</font> -->
+										</td>
+										<td class="text-center">
+											{$vo.name}
+										</td>
+										<td style="padding-left:30px;">
+										   卡号:{$vo.card}<br>
+										   名称:{$vo.bank}<br>
+										   开户人:{$vo.truename}<br>
+										   支行:{$vo.branch}<br>
+										</td>
+										<td style="padding-left:30px;">
+										   卡号:{$vo.com_card}<br>
+										   名称:{$vo.com_bank}<br>
+										   开户人:{$vo.com_truename}<br>
+										   支行:{$vo.com_sub}<br>
+										</td>
+										<td class="text-center">
+											{$vo.ctime|date="Y-m-d H:i:s",###}
+										</td>
+										<td class="text-center">
+											<notempty name="vo.ptime">
+                                            {$vo.ptime|date="Y-m-d H:i",###}
+                                            <else/>
+                                           	 无
+                                            </notempty>
+										</td>
+										<td class="text-center">
+											<if condition="$vo.state eq 0">
+											未处理
+											<elseif condition="$vo.state eq 1" />
+											已充值
+											<elseif condition="$vo.state eq -1" />
+											已拒绝
+											</if>
+										</td>
+										<td class="text-center">
+											<a href="javascript:;" data-id="{$vo.id}" class="btn btn-primary orderprocess"><i class="fa fa-pencil"></i>详细</a>
+										</td>
+									</tr>
+								</volist>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="13">
+											<div class="pull-right">
+												<nav class="pagination">{$page}</nav>
+											</div>
+										</td>
+									</tr>								
+								</tfoot>
+						<else/>
+
+								<tr>
+									<td colspan="13" class="text-center">
+										没有数据啦！
+									</td>
+								</tr>
+								<tr>
+									<td colspan="13" style="text-align:center;">
+										累计充值总额:{$summoney}
+									</td>
+								</tr>
+						</notempty>
+							
+						</table>
+                    </div>
+					</form>
+					<!--内容结束-->
+                </div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/DataAdmin/js/layer/layer.js"></script>
+<script type="text/javascript">
+$(function(){
+    var url = "{:U("detail",'','')}";
+    $(".orderprocess").click(function(){
+        var orderid = $(this).data('id');
+        url += "/id/"+orderid;
+        var index = layer.open({
+            type: 2,
+            title:"充值详情",
+            content: url,
+            area: ['800px', '650px'],
+            skin: 'layui-layer-rim',
+            maxmin: true,
+            scrollbar: true,
+        });
+        layer.full(index);
+    });
+    
+  //上传图片
+   	bind_uploadOne({
+   		uploadUrl : '{:U("DataAdmin/Upload/uploadexcel")}',
+   		bind : '#upload_exl',
+   		dataType : 'JSON',
+   		callback : function(data,el){
+   			    var index = layer.load(1, {
+				  shade: [0.3,'#000'] //0.1透明度的白色背景
+				});
+   			var url = data.url;
+   			if(data.state == "SUCCESS"){
+   				$.post("{:U('Upload/add_balance')}",{"url":url},function(data){
+   					console.log(data);
+   					var data =  eval('(' + data + ')');
+					layer.closeAll();
+   					if(data.returnCode=="SUCCESS"){
+   						msg("处理成功");
+   					}else{
+   						msg("处理失败");
+   					}
+   				})
+   			}else{
+   				msg("上传失败");
+   			}
+   		}
+   	})
+});
+</script>
+<include file="Public/footer"/>

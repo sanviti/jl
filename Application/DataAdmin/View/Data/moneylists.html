@@ -1,0 +1,174 @@
+<include file="Public/header"/>
+<body>
+<include file="Public/nav"/>
+<div class="down-main">
+  <include file="Public/left"/>
+  <div class="right-product right-full">
+          <!---rightcontent---->
+            <div class="container-fluid">
+              <div class="info-center">
+                <!-- header -->
+                <div class="page-header">
+	              	<div class="pull-left">
+	                	<h4>用户资产列表</h4>      
+	            	</div>
+	            </div>
+                <div class="clearfix"></div>
+                <div class="content-list">
+                	<div class="col-md-8" style="padding-left: 0px;width:400px;float:right;">
+                    </div>
+					<div class="clearfix"></div>
+					<!--搜索开始-->
+		             <form name="search" action="__ACTION__" id="searchForm" method="post">
+		             <div class="search-box row">
+						<div class="col-md-13">
+							<div class="form-group">
+								<span class="pull-left form-span">用户ID或手机号：</span>
+								<input type="text" name="keyword" value="{:I('keyword')}" class="form-control" placeholder="">
+							</div>
+							<div class="form-group">
+								<span class="pull-left form-span">用户身份：</span>
+								<select name="role" class="form-control">
+								   <option value="">-选择-</option>
+								   <option value="1" <if condition="$Think.request.role heq '1'"> selected="selected"</if>>普通会员</option>
+								   <option value="2" <if condition="$Think.request.role heq '2'"> selected="selected"</if>>社区会员</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<button class="form-control btn btn-default" id="searchBtn"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+							</div>
+						</div>
+                    </div>
+		             </form>  	
+					<!--搜索结束-->
+					<!--内容开始-->
+					<form id="listForm" method="post">
+					<div class="table-margin">
+						<table class="table table-bordered table-header table-hover">
+							<thead>
+								<tr>
+									<th class="w5" style="text-align:center;">编号</th>
+									<th class="w10"  style="text-align:center;">用户id</th>
+									<th class="w10"  style="text-align:center;">用户身份</th>
+									<th class="w10"  style="text-align:center;">用户名称</th>
+									<th class="w10"  style="text-align:center;">用户手机号</th>
+									<th class="w10" style="text-align:center;">余额</th>
+									<th class="w10" style="text-align:center;">冻结余额</th>
+									<th class="w10" style="text-align:center;">总余额</th>
+									<th class="w10" style="text-align:center;">金链</th>
+									<th class="w15" style="text-align:center;">冻结金链</th>
+									<th class="w10" style="text-align:center;">总金链</th>
+									<th class="w15" style="text-align:center;">操作</th>
+								</tr>
+							</thead>
+							
+						<notempty name="list">
+							<tbody>
+								<volist name="list" id="vo" key="val">
+									<tr class="long-td">
+										<td class="text-center">{$vo.id}</td>	
+										<td class="text-center">{$vo.userid}</td>
+										<td class="text-center">
+										     <if condition="$vo.userlevel eq 1">普通会员
+										       <elseif condition="$vo.userlevel eq 2"/>社区会员
+										      </if>
+										</td>
+										<td class="text-center">{$vo.name}</td>
+										<td class="text-center">{$vo.phone}</td>
+										<td class="text-center"><if condition="$vo.balance eq 0">0.000<else/>{$vo.balance}</if></td>
+										<td class="text-center"><if condition="$vo.balance_lock eq 0">0.000<else/>{$vo.balance_lock}</if></td>
+										<td class="text-center"><if condition="$vo.full_balance eq 0">0.000<else/>{$vo.full_balance}</if></td>
+										<td class="text-center"><if condition="$vo.wallet_number eq 0">0.000<else/>{$vo.wallet_number}</if></td>
+										<td class="text-center"><if condition="$vo.wallet_lock eq 0">0.000<else/>{$vo.wallet_lock}</if></td>
+										<td class="text-center"><if condition="$vo.full_wallet eq 0">0.000<else/>{$vo.full_wallet}</if></td>
+										<td class="text-center"><a href="javascript:void(0);" id="forceSell"  class="btn btn-default" data-id="{$vo.id}">强制卖出</a></td>
+									</tr>
+								</volist>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="12">
+											<div class="pull-right">
+												<nav class="pagination">{$page}</nav>
+											</div>
+										</td>
+									</tr>
+								</tfoot>
+						<else/>
+
+								<tr>
+									<td colspan="12" class="text-center">
+										没有数据啦！
+									</td>
+								</tr>
+						</notempty>
+							
+						</table>
+                    </div>
+					</form>
+					<!--内容结束-->
+                </div>
+                
+              </div>
+            </div>
+  </div>
+</div>
+</body>
+<script src="__PUBLIC__/DataAdmin/js/layer/layer.js"></script>
+<include file="Public/footer"/>
+<style>
+.h4{text-align:center; font-size: 12px;}
+.content{text-align: center;}
+.content .num{border-radius: 3px; width:200px; height:35px;}
+.anniu{width: 80px; height:30px; border-radius: 2px; background-color: #00A1CB;}
+</style>
+<script type="text/javascript">
+	$(document).on('click', '#forceSell', function() {
+		var orderid = $(this).data("id");
+		var content = '';
+		content+='<div>';
+		content+='<h6 class="h4">请输入卖出数量</h6>';
+		content+='<div class="content"><input type="text" id="num" class="num"/><br><br>';
+		content+='<input type="submit" value="提交" class="anniu"/>';
+		content+='</div></div>';
+		layer.open({
+			type: 1,
+			skin: 'layui-layer-rim', //加上边框
+			area: ['420px', '240px'], //宽高
+			content: content,
+			title:'强制卖出'
+		});
+		$(document).on('click', '.anniu', function() {
+			var num=$("#num").val();
+			var re = /^[0-9]+.?[0-9]*$/;
+			if(!re.test(num)){
+				alert("请输入数字");
+				return;
+			}
+			var url='{:U("forceSell")}';
+			var data={
+				uid:orderid,
+				num:num
+			};
+			send(url,data);
+		})
+	})
+
+	function send(url, data){
+		var params = {
+			url : url,
+			params : data,
+			callback : function(data){
+				var msgCallBack;
+				if(data.status == 1){
+					msgCallBack = function(){
+						window.location.reload();
+					}
+				}
+				msg(data.info,msgCallBack,'',5);
+			}
+		}
+		ajax(params);
+	}
+
+</script>
